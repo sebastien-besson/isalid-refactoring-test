@@ -2,7 +2,7 @@
 
 interface QuoteHelperInterface
 {
-    public function replace(array $data, string $text): string;
+    public function replace(string $text, array $data): string;
 
-    public function support(array $data, string $text): bool;
+    public function support(string $text, array $data): bool;
 }
