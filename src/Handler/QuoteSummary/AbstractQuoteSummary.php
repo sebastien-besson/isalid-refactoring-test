@@ -1,9 +1,7 @@
 <?php
 
-abstract class AbstractQuoteDestination implements QuoteHelperInterface
+abstract class AbstractQuoteSummary implements QuoteHandlerInterface
 {
-    protected Destination $destination;
-    protected Site $site;
     protected Quote $quoteRepository;
 
     abstract protected function getPlaceHolder(): string;
@@ -11,7 +9,7 @@ abstract class AbstractQuoteDestination implements QuoteHelperInterface
 
     public function replace(string $text, array $data): string
     {
-        $this->hydrateObjects($data['quote']);
+        $this->hydrateQuote($data['quote']->id);
 
         return str_replace(
             $this->getPlaceHolder(),
@@ -25,10 +23,8 @@ abstract class AbstractQuoteDestination implements QuoteHelperInterface
         return strpos($text, $this->getPlaceHolder()) && !empty($data['quote'] && $data['quote'] instanceof Quote);
     }
 
-    public function hydrateObjects(Quote $quote): void
+    private function hydrateQuote(int $id): void
     {
-        $this->destination = DestinationRepository::getInstance()->getById($quote->destinationId);
-        $this->site = SiteRepository::getInstance()->getById($quote->siteId);
-        $this->quoteRepository = QuoteRepository::getInstance()->getById($quote->id);
+        $this->quoteRepository = QuoteRepository::getInstance()->getById($id);
     }
 }

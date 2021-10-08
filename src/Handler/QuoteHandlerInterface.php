@@ -1,6 +1,6 @@
 <?php
 
-interface QuoteHelperInterface
+interface QuoteHandlerInterface
 {
     public function replace(string $text, array $data): string;
 
