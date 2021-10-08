@@ -2,6 +2,13 @@
 
 class TemplateManager
 {
+    private $applicationContext;
+
+    public function __construct()
+    {
+        $this->applicationContext = new ApplicationContext();
+    }
+
     public function getTemplateComputed(Template $tpl, array $data)
     {
         if (!$tpl) {
@@ -17,8 +24,6 @@ class TemplateManager
 
     private function computeText($text, array $data)
     {
-        $APPLICATION_CONTEXT = ApplicationContext::getInstance();
-
         $quote = (isset($data['quote']) and $data['quote'] instanceof Quote) ? $data['quote'] : null;
 
         if ($quote)
@@ -59,15 +64,21 @@ class TemplateManager
         else
             $text = str_replace('[quote:destination_link]', '', $text);
 
-        /*
-         * USER
-         * [user:*]
-         */
-        $_user  = (isset($data['user'])  and ($data['user']  instanceof User))  ? $data['user']  : $APPLICATION_CONTEXT->getCurrentUser();
-        if($_user) {
-            (strpos($text, '[user:first_name]') !== false) and $text = str_replace('[user:first_name]'       , ucfirst(mb_strtolower($_user->firstname)), $text);
-        }
+
+        $user = $this->getUser($data['user']);
+
+        (strpos($text, '[user:first_name]') !== false) and $text = str_replace('[user:first_name]'       , ucfirst(mb_strtolower($user->firstname)), $text);
+
 
         return $text;
+    }
+
+    private function getUser($user)
+    {
+        if (isset($user) && $user instanceof User) {
+            return $user;
+        }
+
+        return $this->applicationContext->getCurrentUser();
     }
 }
