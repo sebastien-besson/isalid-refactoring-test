@@ -40,3 +40,25 @@ What do we expect from you:
  - a file / message / email explaining your process and principles you've followed
 
 **Good luck!**
+
+
+######################################################################################
+######################################################################################
+
+# Result
+
+## Process
+ - Analysis of the existing
+ - Update php version into composer.json
+ - Modeling the different action types into Handlers
+ - Creation of an QuoteHandlerInterface to define the two methods that each handler will implement
+ - Separation of handlers by type (QuoteDestination, QuoteSummary and QuoteUser)
+ - For each type of handler, the creation of an abstract class to serve as a base for derived classes
+ - Create QuoteHandlerRegistry to loop on each handler, check if support and process to replace text
+ - Implement the QuoteHandlerRegistry into TemplateManager
+ - Cleaning the TemplateManager
+
+## List of evolutions or missing parts
+ - Add a higher level of abstraction to avoid code duplication between abstract classes
+ - Make unit tests to test in depth the different handlers
+ - Creation of validators to check the input data
