@@ -13,7 +13,7 @@ class ApplicationContext
      */
     private $currentUser;
 
-    protected function __construct()
+    public function __construct()
     {
         $faker = \Faker\Factory::create();
         $this->currentSite = new Site($faker->randomNumber(), $faker->url);
